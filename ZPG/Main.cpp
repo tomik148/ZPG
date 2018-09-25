@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+#include "App.h"
 
 static void error_callback(int error, const char* description) { fputs(description, stderr); }
 
@@ -57,6 +57,9 @@ glm::mat4 Model = glm::mat4(1.0f);
 
 int main(void)
 {
+	App app = App::GetInstance();
+	app = App::GetInstance();
+
 	GLFWwindow* window;
 	glfwSetErrorCallback(error_callback);
 
