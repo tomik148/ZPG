@@ -19,6 +19,12 @@ float points[] = {
 	-0.5f, 0.5f, 0.0f
 };
 
+glm::mat4 modelMatrix = glm::mat4(1.0f);
+glm::mat4 viewMatrix = glm::mat4(1.0f);
+glm::mat4 projectionMatrix = glm::mat4(1.0f);
+
+glm::vec3 cameraPosition = glm::vec3(10.0f, 10.0f, 10.0f);
+
 int main(void)
 {
 	App* app = App::GetInstance();
@@ -26,6 +32,10 @@ int main(void)
 	Shader* shader = new Shader();
 	
 	RenderObject* obj = new RenderObject(points, sizeof(points));
+
+	viewMatrix = glm::lookAt(cameraPosition, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 1.0f, 0.0f));
+
+	projectionMatrix = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.01f, 1000.0f);
 
 	while (!glfwWindowShouldClose(app->window))
 	{
@@ -39,7 +49,9 @@ int main(void)
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glUseProgram(shader->shaderProgram);
-		glUniformMatrix4fv(shader->modelMatrixID, 1, GL_FALSE, glm::value_ptr(M));
+		glUniformMatrix4fv(shader->modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+		glUniformMatrix4fv(shader->viewMatrixID, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		glUniformMatrix4fv(shader->projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		glBindVertexArray(obj->VAO);
 		// draw triangles
 		glDrawArrays(GL_TRIANGLES, 0, obj->size); //mode,first,count

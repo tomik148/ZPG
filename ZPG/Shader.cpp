@@ -7,10 +7,12 @@ Shader::Shader()
 	vertex_shader =
 		"#version 330\n"
 		"uniform mat4 modelMatrix;"
+		"uniform mat4 viewMatrix;"
+		"uniform mat4 projectionMatrix;"
 		"layout(location=0) in vec3 vp;"
 		"out vec3 colour;"
 		"void main () {"
-		"     gl_Position = modelMatrix * vec4 (vp, 1.0);"
+		"     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4 (vp, 1.0);"
 		"     colour = vp;"
 		"}";
 	fragment_shader =
@@ -33,6 +35,8 @@ Shader::Shader()
 	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram);
 	modelMatrixID = glGetUniformLocation(shaderProgram, "modelMatrix");
+	viewMatrixID = glGetUniformLocation(shaderProgram, "viewMatrix");
+	projectionMatrixID = glGetUniformLocation(shaderProgram, "projectionMatrix");
 
 	GLint status;
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);

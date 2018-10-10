@@ -9,9 +9,13 @@ class Shader
 public:
 	Shader();
 	GLuint shaderProgram;
-	GLint modelMatrixID;
+
 	GLuint vertexShader;
 	GLuint fragmentShader;
+
+	GLint modelMatrixID;
+	GLint viewMatrixID;
+	GLint projectionMatrixID;
 
 	~Shader();
 private:
