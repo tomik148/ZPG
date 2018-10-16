@@ -24,6 +24,8 @@ public:
 	volatile double cursorePositionX = 0;
 	volatile double cursorePositionY = 0;
 
+	float ratio;
+
 	static void error_callback(int error, const char* description) { fputs(description, stderr); }
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
@@ -41,7 +43,7 @@ public:
 		glViewport(0, 0, width, height);
 	}
 
-	static void cursor_callback(GLFWwindow *window, double x, double y) { App* a = App::GetInstance();  a->cursorePositionX = x; a->cursorePositionY = y; /*printf("cursor_callback \n");*/ }
+	static void cursor_callback(GLFWwindow *window, double x, double y) { App* a = App::GetInstance();  a->cursorePositionX = x; a->cursorePositionY = y; printf("cursor_callback %f , %f \n",x,y); }
 
 	static void button_callback(GLFWwindow* window, int button, int action, int mode) {
 		if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
@@ -49,7 +51,6 @@ public:
 
 private:
 	int width, height;
-	float ratio;
 	App() { Init(); }
 };
 
