@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "Shader.h"
+#include "RenderObject.h"
+
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/vec3.hpp> // glm::vec3
+#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+
 //Include GLEW
 #include <GL/glew.h>
 
@@ -18,39 +25,30 @@ public:
 	}
 	~App();
 
+	void MainLoop();
+
+
 	GLFWwindow* window;
 	void Init();
 
+	glm::vec3 cameraPosition = glm::vec3(10.0f, 10.0f, 10.0f);
+
 	volatile double cursorePositionX = 0;
 	volatile double cursorePositionY = 0;
+	float speed = 0.1f;
+	
 
-	float ratio;
-
-	static void error_callback(int error, const char* description) { fputs(description, stderr); }
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-	{
-		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-			glfwSetWindowShouldClose(window, GL_TRUE);
-		printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
-	}
-
-	static void window_focus_callback(GLFWwindow* window, int focused) { printf("window_focus_callback \n"); }
-
-	static void window_iconify_callback(GLFWwindow* window, int iconified) { printf("window_iconify_callback \n"); }
-
-	static void window_size_callback(GLFWwindow* window, int width, int height) {
-		printf("resize %d, %d \n", width, height);
-		glViewport(0, 0, width, height);
-	}
-
-	static void cursor_callback(GLFWwindow *window, double x, double y) { App* a = App::GetInstance();  a->cursorePositionX = x; a->cursorePositionY = y; printf("cursor_callback %f , %f \n",x,y); }
-
-	static void button_callback(GLFWwindow* window, int button, int action, int mode) {
-		if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
-	}
+	void movment(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void error_callback(int error, const char* description);
+	void window_size_callback(GLFWwindow* window, int width, int height);
+	void cursor_callback(GLFWwindow* window, double mouseX, double mouseY);
+	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	void window_focus_callback(GLFWwindow* window, int focused);
+	void window_iconify_callback(GLFWwindow* window, int iconified);
 
 private:
 	int width, height;
-	App() { Init(); }
+	float ratio;
+	App() { }
 };
 

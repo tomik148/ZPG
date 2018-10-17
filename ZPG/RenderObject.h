@@ -6,6 +6,9 @@ class RenderObject
 {
 public:
 	RenderObject(float*, int);
+
+	void Bind();
+
 	~RenderObject();
 	GLuint VAO = 0;
 	GLuint VBO = 0;

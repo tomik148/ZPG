@@ -5,8 +5,7 @@
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 #include "App.h"
-#include "Shader.h"
-#include "RenderObject.h"
+
 
 
 float points[] = {
@@ -22,55 +21,19 @@ glm::mat4 modelMatrix = glm::mat4(1.0f);
 glm::mat4 viewMatrix = glm::mat4(1.0f);
 glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-glm::vec3 cameraPosition = glm::vec3(10.0f, 10.0f, 10.0f);
+
 
 float speed = 0.1f;
 
-static void movment(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (GLFW_KEY_W == key)
-	{
-		glm::vec3 deltaPos = -cameraPosition;
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_S == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_A == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos = glm::cross(deltaPos, glm::vec3(0, 1, 0));
-
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_D == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos = glm::cross(glm::vec3(0, 1, 0), deltaPos);
-
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-}
 
 int main(void)
 {
 	App* app = App::GetInstance();
+	app->Init();
+	app->MainLoop();
 
-	Shader* shader = new Shader();
+	/*
 	
-	RenderObject* obj = new RenderObject(points, sizeof(points));
-
-	glfwSetKeyCallback(app->window, movment);
 
 	while (!glfwWindowShouldClose(app->window))
 	{
@@ -87,13 +50,21 @@ int main(void)
 
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(shader->shaderProgram);
+		shader->SetAsProgram();
 
+		shader->AddMatrix(modelMatrix, "modelMatrix");
+		shader->AddMatrix(viewMatrix, "viewMatrix");
+		shader->AddMatrix(projectionMatrix, "projectionMatrix");
+
+
+		/*
 		glUniformMatrix4fv(shader->modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		glUniformMatrix4fv(shader->viewMatrixID, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 		glUniformMatrix4fv(shader->projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		
-		glBindVertexArray(obj->VAO);
+
+
+		obj->Bind();
 
 
 		// draw triangles
@@ -106,6 +77,7 @@ int main(void)
 	}
 	glfwDestroyWindow(app->window);
 	glfwTerminate();
-	exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS); 
+	*/
 }
 

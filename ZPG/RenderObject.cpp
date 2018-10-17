@@ -17,6 +17,11 @@ RenderObject::RenderObject(float* points, int size)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 }
 
+void RenderObject::Bind()
+{
+	glBindVertexArray(VAO);
+}
+
 
 RenderObject::~RenderObject()
 {
