@@ -4,6 +4,7 @@
 
 #include "Shader.h"
 #include "RenderObject.h"
+#include "Camera.h"
 
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/vec3.hpp> // glm::vec3
@@ -33,16 +34,10 @@ public:
 
 	glm::vec3 cameraPosition = glm::vec3(10.0f, 10.0f, 10.0f);
 
-	volatile double cursorePositionX = 0;
-	volatile double cursorePositionY = 0;
-	float speed = 0.1f;
-	
+	Camera* camera;
 
-	void movment(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void error_callback(int error, const char* description);
 	void window_size_callback(GLFWwindow* window, int width, int height);
-	void cursor_callback(GLFWwindow* window, double mouseX, double mouseY);
-	void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 	void window_focus_callback(GLFWwindow* window, int focused);
 	void window_iconify_callback(GLFWwindow* window, int iconified);
 

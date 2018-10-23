@@ -72,10 +72,17 @@ void Shader::SetAsProgram()
 	glUseProgram(shaderProgram);
 }
 
-GLint Shader::AddMatrix(glm::mat4 matrix, const char * nameInShader)
+GLint Shader::Add(glm::mat4 matrix, const char * nameInShader)
 {
 	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
 	glUniformMatrix4fv(ret, 1, GL_FALSE, glm::value_ptr(matrix));
+	return ret;
+}
+
+GLint Shader::Add(glm::vec3 vector, const char * nameInShader)
+{
+	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
+	glUniform3fv(ret, 1, glm::value_ptr(vector));
 	return ret;
 }
 

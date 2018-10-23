@@ -1,5 +1,7 @@
 #include "App.h"
 
+#include "sphere.h"
+
 
 App::~App()
 {
@@ -7,23 +9,16 @@ App::~App()
 
 void App::MainLoop()
 {
-	float points[] = {
-	0.5f, 0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f,
-	-0.5f, -0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f
-	};
-
 	Shader* shader = new Shader();
-	RenderObject* obj = new RenderObject(points, sizeof(points));
+	RenderObject* obj = new RenderObject(sphere, sizeofSphere);
+	obj->Position = glm::vec3(2,0,0);
+	camera = new Camera(0, 10, 0, 0, -89);
 
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	
+	glEnable(GL_DEPTH_TEST);
 
 	//glfwSetKeyCallback(window, movment);
 
@@ -34,9 +29,11 @@ void App::MainLoop()
 		//modelMatrix = glm::rotate(modelMatrix, 0.1f, glm::vec3(0.0f, 0.0f, 1.0f));
 		//modelMatrix = glm::translate(modelMatrix, glm::vec3(0.5f, -0.5f, 0.0f));
 
-		viewMatrix = glm::lookAt(cameraPosition, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		viewMatrix = camera->GetViewMatrix();//glm::lookAt(cameraPosition, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		projectionMatrix = glm::perspective(glm::radians(45.0f), ratio, 0.01f, 1000.0f);
+
+		
 
 		//modelMatrix = glm::rotate(modelMatrix, 0.01f, glm::vec3(0.0f, 0.0f, 1.0f));
 
@@ -44,9 +41,11 @@ void App::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader->SetAsProgram();
 
-		shader->AddMatrix(modelMatrix, "modelMatrix");
-		shader->AddMatrix(viewMatrix, "viewMatrix");
-		shader->AddMatrix(projectionMatrix, "projectionMatrix");
+		shader->Add(obj->getModelMatrix(), "modelMatrix");
+		shader->Add(viewMatrix, "viewMatrix");
+		shader->Add(projectionMatrix, "projectionMatrix");
+		
+		shader->Add(camera->Position, "cameraPosition");
 
 
 		/*
@@ -55,12 +54,12 @@ void App::MainLoop()
 		glUniformMatrix4fv(shader->projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		*/
 
-
-		obj->Bind();
+		
+		obj->Render();
 
 
 		// draw triangles
-		glDrawArrays(GL_TRIANGLES, 0, obj->size); //mode,first,count
+		//glDrawArrays(GL_TRIANGLES, 0, 2880); //mode,first,count
 										  // update other events like input handling
 		glfwPollEvents();
 
@@ -84,51 +83,6 @@ void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void App::movment(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (GLFW_KEY_W == key)
-	{
-		glm::vec3 deltaPos = -cameraPosition;
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_S == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_A == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos = glm::cross(deltaPos, glm::vec3(0, 1, 0));
-
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-	if (GLFW_KEY_D == key)
-	{
-		glm::vec3 deltaPos = cameraPosition;
-		deltaPos = glm::cross(glm::vec3(0, 1, 0), deltaPos);
-
-		deltaPos /= deltaPos.length();
-		deltaPos *= speed;
-		cameraPosition += deltaPos;
-	}
-}
-
-
-
-
-void App::cursor_callback(GLFWwindow *window, double x, double y) { App* a = App::GetInstance();  a->cursorePositionX = x; a->cursorePositionY = y; printf("cursor_callback %f , %f \n", x, y); }
-
-void App::mouse_button_callback(GLFWwindow* window, int button, int action, int mode) {
-	if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
-}
-
 void App::Init()
 {
 	glfwSetErrorCallback([](int error, const char* description) -> void { App::GetInstance()->error_callback(error, description); });
@@ -144,9 +98,9 @@ void App::Init()
 		exit(EXIT_FAILURE);
 	}
 
-	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) -> void { App::GetInstance()->movment(window, key, scancode, action, mods); });
-	glfwSetCursorPosCallback(window, [](GLFWwindow* window, double mouseXPos, double mouseYPos) -> void { App::GetInstance()->cursor_callback(window, mouseXPos, mouseYPos); });
-	glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) -> void { App::GetInstance()->mouse_button_callback(window, button, action, mods); });
+	glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) -> void { App::GetInstance()->camera->movment(window, key, scancode, action, mods); });
+	glfwSetCursorPosCallback(window, [](GLFWwindow* window, double mouseXPos, double mouseYPos) -> void { App::GetInstance()->camera->look(window, mouseXPos, mouseYPos); });
+	glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) -> void { App::GetInstance()->camera->mouse_button_callback(window, button, action, mods); });
 	glfwSetWindowFocusCallback(window, [](GLFWwindow* window, int focused) -> void { App::GetInstance()->window_focus_callback(window, focused); });
 	glfwSetWindowIconifyCallback(window, [](GLFWwindow* window, int iconified) -> void { App::GetInstance()->window_iconify_callback(window, iconified); });
 	glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) -> void { App::GetInstance()->window_size_callback(window, width, height); });

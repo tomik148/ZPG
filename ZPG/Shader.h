@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/vec3.hpp> // glm::mat4
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
 class Shader
@@ -16,7 +17,8 @@ public:
 
 	void SetAsProgram();
 
-	GLint AddMatrix(glm::mat4 matrix, const char * nameInShader);
+	GLint Add(glm::mat4 matrix, const char * nameInShader);
+	GLint Add(glm::vec3 vector, const char * nameInShader);
 
 	GLuint shaderProgram;
 
