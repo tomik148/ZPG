@@ -6,19 +6,24 @@
 App::~App()
 {
 }
-
 void App::MainLoop()
 {
 	Shader* shader = new Shader();
-	RenderObject* obj = new RenderObject(sphere, sizeofSphere);
-	obj->Position = glm::vec3(2,0,0);
+	RenderObject* obj1 = new RenderObject(sphere, sizeofSphere);
+	obj1->Position = glm::vec3(2,0,0);	
+	RenderObject* obj2 = new RenderObject(sphere, sizeofSphere);
+	obj2->Position = glm::vec3(-2,0,0);	
+	RenderObject* obj3 = new RenderObject(sphere, sizeofSphere);
+	obj3->Position = glm::vec3(0,0,2);	
+	RenderObject* obj4 = new RenderObject(sphere, sizeofSphere);
+	obj4->Position = glm::vec3(0,0,-2);
 	camera = new Camera(0, 10, 0, 0, -89);
 
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	glEnable(GL_DEPTH_TEST);
+	
 
 	//glfwSetKeyCallback(window, movment);
 
@@ -41,7 +46,7 @@ void App::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader->SetAsProgram();
 
-		shader->Add(obj->getModelMatrix(), "modelMatrix");
+		
 		shader->Add(viewMatrix, "viewMatrix");
 		shader->Add(projectionMatrix, "projectionMatrix");
 		
@@ -54,9 +59,14 @@ void App::MainLoop()
 		glUniformMatrix4fv(shader->projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		*/
 
-		
-		obj->Render();
-
+		shader->Add(obj1->getModelMatrix(), "modelMatrix");
+		obj1->Render();
+		shader->Add(obj2->getModelMatrix(), "modelMatrix");
+		obj2->Render();
+		shader->Add(obj3->getModelMatrix(), "modelMatrix");
+		obj3->Render();
+		shader->Add(obj4->getModelMatrix(), "modelMatrix");
+		obj4->Render();
 
 		// draw triangles
 		//glDrawArrays(GL_TRIANGLES, 0, 2880); //mode,first,count
@@ -127,5 +137,6 @@ void App::Init()
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
+	glEnable(GL_DEPTH_TEST);
 
 }
