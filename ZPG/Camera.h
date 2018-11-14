@@ -1,6 +1,9 @@
 #pragma once
 
 #include <stdio.h>
+#include <vector>
+#include <functional>
+#include <iostream>
 
 //Include GLEW
 #include <GL/glew.h>
@@ -31,7 +34,21 @@ public:
 
 	void RecalculateFrontRightUp();
 
+	inline void AddListenerToOnViewMatrixChanged(std::function<void(glm::mat4)> listener)
+	{
+		OnViewMatrixChanged.push_back(listener);
+	}
 
+	inline void RemoveListenerFromOnViewMatrixChanged(std::function<void(glm::mat4)> listener)
+	{
+		for (size_t i = 0; i < OnViewMatrixChanged.size(); i++)
+		{
+			if (&OnViewMatrixChanged.at(i) == &listener)
+			{
+				OnViewMatrixChanged.erase(OnViewMatrixChanged.begin() + i);
+			}
+		}
+	}
 
 	void movment(GLFWwindow* window, int key, int scancode, int action, int mods);
 
@@ -41,5 +58,20 @@ public:
 	float lastMouseX, lastMouseY;
 	void look(GLFWwindow* window, double mouseX, double mouseY);
 	~Camera();
+private:
+
+	inline void InvokeOnViewMatrixChanged(glm::mat4 viewMatrix)
+	{
+		for (size_t i = 0; i < OnViewMatrixChanged.size(); i++)
+		{
+			if (OnViewMatrixChanged.at(i))
+			{
+				OnViewMatrixChanged.at(i)(viewMatrix);
+			}
+
+		}
+	}
+	std::vector<std::function<void(glm::mat4)>> OnViewMatrixChanged;
+
 };
 

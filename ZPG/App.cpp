@@ -9,15 +9,17 @@ App::~App()
 void App::MainLoop()
 {
 	Shader* shader = new Shader();
-	RenderObject* obj1 = new RenderObject(sphere, sizeofSphere);
+	Object* obj1 = new Object(sphere, sizeofSphere);
 	obj1->Position = glm::vec3(2,0,0);	
-	RenderObject* obj2 = new RenderObject(sphere, sizeofSphere);
+	Object* obj2 = new Object(sphere, sizeofSphere);
 	obj2->Position = glm::vec3(-2,0,0);	
-	RenderObject* obj3 = new RenderObject(sphere, sizeofSphere);
+	Object* obj3 = new Object(sphere, sizeofSphere);
 	obj3->Position = glm::vec3(0,0,2);	
-	RenderObject* obj4 = new RenderObject(sphere, sizeofSphere);
+	Object* obj4 = new Object(sphere, sizeofSphere);
 	obj4->Position = glm::vec3(0,0,-2);
 	camera = new Camera(0, 10, 0, 0, -89);
+
+	//Model* m = new  Model<glm::vec3, glm::vec3> (sphere, sizeofSphere);
 
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
@@ -38,12 +40,10 @@ void App::MainLoop()
 
 		projectionMatrix = glm::perspective(glm::radians(45.0f), ratio, 0.01f, 1000.0f);
 
-		
-
 		//modelMatrix = glm::rotate(modelMatrix, 0.01f, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		// clear color and depth buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		shader->SetAsProgram();
 
 		
@@ -60,13 +60,13 @@ void App::MainLoop()
 		*/
 
 		shader->Add(obj1->getModelMatrix(), "modelMatrix");
-		obj1->Render();
+		obj1->Draw();
 		shader->Add(obj2->getModelMatrix(), "modelMatrix");
-		obj2->Render();
+		obj2->Draw();
 		shader->Add(obj3->getModelMatrix(), "modelMatrix");
-		obj3->Render();
+		obj3->Draw();
 		shader->Add(obj4->getModelMatrix(), "modelMatrix");
-		obj4->Render();
+		obj4->Draw();
 
 		// draw triangles
 		//glDrawArrays(GL_TRIANGLES, 0, 2880); //mode,first,count
@@ -139,4 +139,6 @@ void App::Init()
 
 	glEnable(GL_DEPTH_TEST);
 
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 }

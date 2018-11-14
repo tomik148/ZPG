@@ -1,18 +1,20 @@
 #pragma once
 #include <GL/glew.h>
 #include <stdlib.h>
+#include <map>
 
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/gtc/matrix_transform.hpp>
+#include "IDrawable.h"
 
-class RenderObject
+class Object : IDrawable
 {
 public:
-	RenderObject(const float*, int);
+	Object(const float*, int);
 
 	void Bind();
-	void Render();
+	void Draw();
 
 	glm::vec3 Position = glm::vec3(0, 0, 0);
 	glm::vec3 Rotation = glm::vec3(0, 0, 0);
@@ -20,10 +22,13 @@ public:
 	
 	glm::mat4 getModelMatrix();
 
-	~RenderObject();
+	~Object();
 	GLuint VAO = 0;
 	GLuint VBO = 0;
 	int size;
 private:
+	static int NEXT_ID;
+	int id;
+	static std::map<int, Object*> allObjects;
 	const float* points;
 };
