@@ -20,7 +20,7 @@ void main () {
     frag_colour = vec4 (0.1,0.1,0.1,1);
 	
 	float dif = max(dot(normalize(vecToLight),normalize(WordNormal)),0) ;
-	float spec = pow(max(dot(vecToCamera,reflect(-vecToLight,WordNormal)),0),20); 
+	float spec = pow(max(dot(vecToCamera,reflect(-vecToLight,WordNormal)),0),10); 
 	
 	frag_colour += vec4 (1,0,0,1) * ( dif );
 	frag_colour += vec4 (1,1,1,1) * ( spec );

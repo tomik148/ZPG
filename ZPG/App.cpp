@@ -25,7 +25,36 @@ void App::MainLoop()
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	
+	const aiScene* scene = aiImportFile("../Models/test.obj", 0);
+
+
+	if (scene->HasMeshes())
+	{
+		for (size_t i = 0; i < scene->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[i];
+			mesh->HasPositions();
+		}
+	}
+
+	if (scene->HasMaterials())
+	{
+		for (size_t i = 0; i < scene->mNumMaterials; i++)
+		{
+			aiMaterial* material = scene->mMaterials[i];
+			for (size_t j = 0; j < material->mNumProperties; j++)
+			{
+				aiString  a;
+				aiTexture t;
+				material->Get(AI_MATKEY_NAME,a);
+				std::cout << a.C_Str() << std::endl;
+
+			}
+			
+
+
+		}
+	}
 
 	//glfwSetKeyCallback(window, movment);
 
@@ -51,6 +80,8 @@ void App::MainLoop()
 		shader->Add(projectionMatrix, "projectionMatrix");
 		
 		shader->Add(camera->Position, "cameraPosition");
+		
+
 
 
 		/*

@@ -82,6 +82,7 @@
     <None Include="fragment.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZPG.rc">

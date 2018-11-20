@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
 
 #include "Shader.h"
 #include "Object.h"
@@ -10,6 +11,12 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+
+//ASSIMP
+#include <assimp\cimport.h>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
+#include <assimp\texture.h>
 
 //Include GLEW
 #include <GL/glew.h>
