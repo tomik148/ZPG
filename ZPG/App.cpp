@@ -37,6 +37,7 @@ void App::MainLoop()
 		}
 	}
 
+	GLuint textureID = SOIL_load_OGL_texture("../Models/test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 	if (scene->HasMaterials())
 	{
 		for (size_t i = 0; i < scene->mNumMaterials; i++)

@@ -12,6 +12,8 @@
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 
+#include <soil.h>
+
 //ASSIMP
 #include <assimp\cimport.h>
 #include <assimp\scene.h>
