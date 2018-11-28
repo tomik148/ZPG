@@ -23,6 +23,15 @@ Object::Object(const float* points, int size)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
 }
 
+Object::Object(const Model * model, const Shader * shader)
+{
+	this->shader = shader;
+	this->model = model;
+
+
+
+}
+
 void Object::Bind()
 {
 	glBindVertexArray(VAO);

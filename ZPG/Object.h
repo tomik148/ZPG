@@ -7,11 +7,14 @@
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/gtc/matrix_transform.hpp>
 #include "IDrawable.h"
+#include "Model.h"
+#include "Shader.h"
 
 class Object : IDrawable
 {
 public:
 	Object(const float*, int);
+	Object(const Model* model, const Shader* shader);
 
 	void Bind();
 	void Draw();
@@ -31,4 +34,8 @@ private:
 	int id;
 	static std::map<int, Object*> allObjects;
 	const float* points;
+
+	const Shader*  shader;
+	const Model* model;
+
 };
