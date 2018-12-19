@@ -8,7 +8,7 @@ App::~App()
 }
 void App::MainLoop()
 {
-	Shader* shader = new Shader();
+	Shader* shader = new Shader("../ZPG/vertex.vert", "../ZPG/fragment.frag");
 	Scene* scene = new Scene();
 
 	RenderableObject* obj1 = new RenderableObject(sphere, sizeofSphere, shader);
@@ -27,40 +27,40 @@ void App::MainLoop()
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	const aiScene* s = aiImportFile("../Models/test.obj", aiProcessPreset_TargetRealtime_Fast );
+	//const aiScene* s = aiImportFile(, aiProcessPreset_TargetRealtime_Fast );
 
-	aiMesh* mesh = NULL;
-	if (s->HasMeshes())
-	{
-		for (size_t i = 0; i < s->mNumMeshes; i++)
-		{
-			mesh = s->mMeshes[i];
-			mesh->HasPositions();
-		}
-	}
+	//aiMesh* mesh = NULL;
+	//if (s->HasMeshes())
+	//{
+	//	for (size_t i = 0; i < s->mNumMeshes; i++)
+	//	{
+	//		mesh = s->mMeshes[i];
+	//		mesh->HasPositions();
+	//	}
+	//}
 
-	GLuint textureID = SOIL_load_OGL_texture("../Models/test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-	if (s->HasMaterials())
-	{
-		for (size_t i = 0; i < s->mNumMaterials; i++)
-		{
-			aiMaterial* material = s->mMaterials[i];
-			for (size_t j = 0; j < material->mNumProperties; j++)
-			{
-				aiString  a;
-				aiTexture t;
-				material->Get(AI_MATKEY_NAME,a);
-				std::cout << a.C_Str() << std::endl;
+	//GLuint textureID = SOIL_load_OGL_texture("../Models/test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+	//if (s->HasMaterials())
+	//{
+	//	for (size_t i = 0; i < s->mNumMaterials; i++)
+	//	{
+	//		aiMaterial* material = s->mMaterials[i];
+	//		for (size_t j = 0; j < material->mNumProperties; j++)
+	//		{
+	//			aiString  a;
+	//			aiTexture t;
+	//			material->Get(AI_MATKEY_NAME,a);
+	//			std::cout << a.C_Str() << std::endl;
 
-			}
-			
-
-
-		}
-	}
+	//		}
+	//		
 
 
-	auto obj = new RenderableObject(new Model(mesh), shader);
+	//	}
+	//}
+
+
+	auto obj = new RenderableObject(new Model("../Models/test.obj"), shader);
 	scene->Add(obj);
 	//glfwSetKeyCallback(window, movment);
 
@@ -96,14 +96,14 @@ void App::MainLoop()
 		glUniformMatrix4fv(shader->projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 		*/
 
-		shader->Add(obj1->getModelMatrix(), "modelMatrix");
-		obj1->Draw();
-		shader->Add(obj2->getModelMatrix(), "modelMatrix");
-		obj2->Draw();
-		shader->Add(obj3->getModelMatrix(), "modelMatrix");
-		obj3->Draw();
-		shader->Add(obj4->getModelMatrix(), "modelMatrix");
-		obj4->Draw();
+		//shader->Add(obj1->getModelMatrix(), "modelMatrix");
+		//obj1->Draw();
+		//shader->Add(obj2->getModelMatrix(), "modelMatrix");
+		//obj2->Draw();
+		//shader->Add(obj3->getModelMatrix(), "modelMatrix");
+		//obj3->Draw();
+		//shader->Add(obj4->getModelMatrix(), "modelMatrix");
+		//obj4->Draw();
 
 		// draw triangles
 		//glDrawArrays(GL_TRIANGLES, 0, 2880); //mode,first,count

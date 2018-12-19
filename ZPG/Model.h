@@ -2,37 +2,42 @@
 
 //ASSIMP
 #include <assimp\scene.h>
-#include <glm\vec3.hpp>
-#include <glm\vec2.hpp>
-#include <GL/glew.h>
-#include <vector>
+#include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <GL\glew.h>
+
+#include <assimp\Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
+
+#include <soil.h>
+
 #include <string>
+#include <vector>
 
-struct Vertex {
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-};
+#include "Mesh.h"
 
-struct Texture {
-	unsigned int id;
-	std::string type;
-};
+
 
 class Model
 {
 public: 
-	Model(const float*, int);
-	Model(aiMesh*);
-	void setupMesh();
-	aiMesh* model;
+
+	std::vector<Texture> textures_loaded;
+	std::vector<Mesh> meshes;
+
+	Model(std::string const &path);
+	void Draw(Shader shader);
 private:
-	GLuint VAO = 0;
-	GLuint VBO = 0;
-	GLuint EBO = 0;
+
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+
+	void loadModel(std::string const &path);
+	void processNode(aiNode* node, const aiScene* scene);
+	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };
 

@@ -15,7 +15,7 @@ class RenderableObject : public Object , public IDrawable
 {
 public:
 	RenderableObject(const float*, int, Shader* shader);
-	RenderableObject(const Model* model, Shader* shader);
+	RenderableObject(Model* model, Shader* shader);
 
 	void Bind();
 	void Draw();
@@ -31,6 +31,6 @@ private:
 	const float* points;
 
 	Shader*  shader;
-	const Model* model;
+	Model* model;
 
 };

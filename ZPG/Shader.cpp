@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 
-Shader::Shader()
+Shader::Shader(std::string vertexName, std::string fragmentName)
 {
 	/*
 	vertex_shader =
@@ -23,14 +23,14 @@ Shader::Shader()
 		"     frag_colour = vec4 (colour,1);"
 		"}";
 */
-	std::ifstream myfile("../ZPG/vertex.vert");
+	std::ifstream myfile(vertexName);//"../ZPG/vertex.vert"
 	std::stringstream buffer;
 	buffer << myfile.rdbuf();
 	std::string temp = buffer.str();
 	vertex_shader = &temp[0u];
 	myfile.close();
 
-	std::ifstream myfile2("../ZPG/fragment.frag");
+	std::ifstream myfile2(fragmentName);//"../ZPG/fragment.frag"
 	std::stringstream buffer2;
 	buffer2 << myfile2.rdbuf();
 	std::string temp2 = buffer2.str();
@@ -78,11 +78,22 @@ GLint Shader::Add(glm::mat4 matrix, const char * nameInShader)
 	glUniformMatrix4fv(ret, 1, GL_FALSE, glm::value_ptr(matrix));
 	return ret;
 }
-
 GLint Shader::Add(glm::vec3 vector, const char * nameInShader)
 {
 	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
 	glUniform3fv(ret, 1, glm::value_ptr(vector));
+	return ret;
+}
+GLint Shader::Add(float f, const char * nameInShader)
+{
+	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
+	glUniform1f(ret, f);
+	return ret;
+}
+GLint Shader::Add(int i, const char * nameInShader)
+{
+	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
+	glUniform1i(ret, i);
 	return ret;
 }
 

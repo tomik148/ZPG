@@ -13,12 +13,14 @@
 class Shader
 {
 public:
-	Shader();
+	Shader(std::string, std::string);
 
 	void SetAsProgram();
 
 	GLint Add(glm::mat4 matrix, const char * nameInShader);
 	GLint Add(glm::vec3 vector, const char * nameInShader);
+	GLint Add(float f, const char * nameInShader);
+	GLint Add(int i, const char * nameInShader);
 
 	GLuint shaderProgram;
 
