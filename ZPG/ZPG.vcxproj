@@ -127,22 +127,22 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IUpdatable.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="plain.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="plain.h" />
+    <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />

@@ -9,13 +9,15 @@ App::~App()
 void App::MainLoop()
 {
 	Shader* shader = new Shader();
-	Object* obj1 = new Object(sphere, sizeofSphere);
+	Scene* scene = new Scene();
+
+	RenderableObject* obj1 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj1->Position = glm::vec3(2,0,0);	
-	Object* obj2 = new Object(sphere, sizeofSphere);
+	RenderableObject* obj2 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj2->Position = glm::vec3(-2,0,0);	
-	Object* obj3 = new Object(sphere, sizeofSphere);
+	RenderableObject* obj3 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj3->Position = glm::vec3(0,0,2);	
-	Object* obj4 = new Object(sphere, sizeofSphere);
+	RenderableObject* obj4 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj4->Position = glm::vec3(0,0,-2);
 	camera = new Camera(0, 10, 0, 0, -89);
 
@@ -25,24 +27,24 @@ void App::MainLoop()
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	const aiScene* scene = aiImportFile("../Models/test.obj", 0);
+	const aiScene* s = aiImportFile("../Models/test.obj", aiProcessPreset_TargetRealtime_Fast );
 
-
-	if (scene->HasMeshes())
+	aiMesh* mesh = NULL;
+	if (s->HasMeshes())
 	{
-		for (size_t i = 0; i < scene->mNumMeshes; i++)
+		for (size_t i = 0; i < s->mNumMeshes; i++)
 		{
-			aiMesh* mesh = scene->mMeshes[i];
+			mesh = s->mMeshes[i];
 			mesh->HasPositions();
 		}
 	}
 
 	GLuint textureID = SOIL_load_OGL_texture("../Models/test.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-	if (scene->HasMaterials())
+	if (s->HasMaterials())
 	{
-		for (size_t i = 0; i < scene->mNumMaterials; i++)
+		for (size_t i = 0; i < s->mNumMaterials; i++)
 		{
-			aiMaterial* material = scene->mMaterials[i];
+			aiMaterial* material = s->mMaterials[i];
 			for (size_t j = 0; j < material->mNumProperties; j++)
 			{
 				aiString  a;
@@ -57,6 +59,9 @@ void App::MainLoop()
 		}
 	}
 
+
+	auto obj = new RenderableObject(new Model(mesh), shader);
+	scene->Add(obj);
 	//glfwSetKeyCallback(window, movment);
 
 	while (!glfwWindowShouldClose(window))
@@ -82,7 +87,7 @@ void App::MainLoop()
 		
 		shader->Add(camera->Position, "cameraPosition");
 		
-
+		scene->Update(1);
 
 
 		/*

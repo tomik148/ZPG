@@ -4,9 +4,10 @@
 #include <string>
 
 #include "Shader.h"
-#include "Object.h"
+#include "RenderableObject.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Scene.h"
 
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/vec3.hpp> // glm::vec3
