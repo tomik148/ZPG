@@ -28,6 +28,7 @@ RenderableObject::RenderableObject(Model* model, Shader* shader)
 {
 	this->shader = shader;
 	this->model = model;
+	id = NEXT_ID++;
 }
 
 void RenderableObject::Bind()
@@ -37,15 +38,20 @@ void RenderableObject::Bind()
  
 void RenderableObject::Draw()
 {
+	
 	if (model == nullptr)
 	{
 		this->shader->SetAsProgram();
 		Bind();
+		shader->Add(getModelMatrix(), "modelMatrix");
 		glStencilFunc(GL_ALWAYS, id, 0xFF);
 		glDrawArrays(GL_TRIANGLES, 0, size / 12); //FIXME //TODO
 	}
 	else
 	{
+		this->shader->SetAsProgram();
+		glStencilFunc(GL_ALWAYS, id, 0xFF);
+		shader->Add(getModelMatrix(), "modelMatrix");
 		model->Draw(*shader);
 	}
 

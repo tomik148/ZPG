@@ -9,21 +9,30 @@ App::~App()
 void App::MainLoop()
 {
 	Shader* shader = new Shader("../ZPG/vertex.vert", "../ZPG/fragment.frag");
+	Shader* shader2 = new Shader("../ZPG/cubeUnLit.vert", "../ZPG/cubeUnLit.frag");
 	Scene* scene = new Scene();
 
 	RenderableObject* obj1 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj1->Position = glm::vec3(2,0,0);	
+	scene->Add(obj1);
+
 	RenderableObject* obj2 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj2->Position = glm::vec3(-2,0,0);	
+	scene->Add(obj2);
+
 	RenderableObject* obj3 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj3->Position = glm::vec3(0,0,2);	
+	scene->Add(obj3);
+
 	RenderableObject* obj4 = new RenderableObject(sphere, sizeofSphere, shader);
 	obj4->Position = glm::vec3(0,0,-2);
+	scene->Add(obj4);
+
 	camera = new Camera(0, 10, 0, 0, -89);
 
 	//Model* m = new  Model<glm::vec3, glm::vec3> (sphere, sizeofSphere);
 
-	glm::mat4 modelMatrix = glm::mat4(1.0f);
+	//glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 viewMatrix = glm::mat4(1.0f);
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
@@ -59,10 +68,15 @@ void App::MainLoop()
 	//	}
 	//}
 
-
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	auto obj = new RenderableObject(new Model("../Models/test.obj"), shader);
 	scene->Add(obj);
+
+	//glm::mat4 modelMatrix = glm::mat4(1);
+	auto sky = new SkyBox(shader2);
+
 	//glfwSetKeyCallback(window, movment);
+	projectionMatrix = glm::perspective(glm::radians(45.0f), ratio, 0.01f, 1000.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -73,22 +87,27 @@ void App::MainLoop()
 
 		viewMatrix = camera->GetViewMatrix();//glm::lookAt(cameraPosition, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		projectionMatrix = glm::perspective(glm::radians(45.0f), ratio, 0.01f, 1000.0f);
+		
 
 		//modelMatrix = glm::rotate(modelMatrix, 0.01f, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		shader->SetAsProgram();
+		//shader->SetAsProgram();
 
 		
 		shader->Add(viewMatrix, "viewMatrix");
-		shader->Add(projectionMatrix, "projectionMatrix");
-		
+		shader->Add(projectionMatrix, "projectionMatrix");		
 		shader->Add(camera->Position, "cameraPosition");
-		
-		scene->Update(1);
 
+		//shader2->Add(glm::translate(modelMatrix, camera->Position), "Model");
+		shader2->Add(viewMatrix, "viewMatrix");
+		shader2->Add(projectionMatrix, "projectionMatrix");
+		
+		
+		
+		//sky->Draw();
+		scene->Update(1);
 
 		/*
 		glUniformMatrix4fv(shader->modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));

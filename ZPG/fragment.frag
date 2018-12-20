@@ -26,7 +26,7 @@ void main () {
 	float dif = max(dot(normalize(vecToLight),normalize(WordNormal)),0) ;
 	float spec = pow(max(dot(vecToCamera,reflect(-vecToLight,WordNormal)),0),10); 
 	
-	frag_colour += vec4 (1,1,1,1) * ( dif );
+	frag_colour += texture(texture_diffuse0,txC) * ( dif );
 	frag_colour += vec4 (1,1,1,1) * ( spec );
 	
 }

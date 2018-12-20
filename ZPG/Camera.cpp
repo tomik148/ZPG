@@ -75,7 +75,7 @@ void Camera::look(GLFWwindow * window, double mouseX, double mouseY)
 	GLfloat depth;
 	GLuint index;
 
-	double newy = mouseY;
+	double newy = 600 - mouseY;
 
 	glReadPixels(mouseX, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
 	glReadPixels(mouseX, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
@@ -83,7 +83,7 @@ void Camera::look(GLFWwindow * window, double mouseX, double mouseY)
 
 	//printf("Clicked on pixel %d, %d, color % 02hhx % 02hhx % 02hhx % 02hhx, depth %f, stencil index %u\n", mouseX, mouseY, color[0], color[1], color[2], color[3], depth, index);
 
-	std::cout << "Clicked on pixel " << mouseX << ", " << mouseY <<  std::endl;
+	std::cout << "Clicked on pixel " << mouseX << ", " << newy <<  std::endl;
 	std::cout << "Color " << color[0] << ", " << color[1] << ", " << color[2] << ", " << std::endl;
 	std::cout << "Depth " << depth <<  std::endl;
 	std::cout << "Stencil index " << index <<  std::endl;

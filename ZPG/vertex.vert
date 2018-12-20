@@ -7,7 +7,7 @@ layout(location = 0) in vec3 vertexPos;
 layout(location = 1) in vec3 Normal;
 layout (location = 2) in vec2 aTexCoords;
 
-uniform vec3 lightPosition = vec3(0,0,0);
+uniform vec3 lightPosition = vec3(0,10,0);
 uniform vec3 cameraPosition;
 
 

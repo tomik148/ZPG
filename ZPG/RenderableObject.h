@@ -16,6 +16,7 @@ class RenderableObject : public Object , public IDrawable
 public:
 	RenderableObject(const float*, int, Shader* shader);
 	RenderableObject(Model* model, Shader* shader);
+	RenderableObject() {};
 
 	void Bind();
 	void Draw();

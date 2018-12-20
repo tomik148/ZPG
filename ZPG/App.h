@@ -7,6 +7,7 @@
 #include "RenderableObject.h"
 #include "Camera.h"
 #include "Model.h"
+#include "SkyBox.h"
 #include "Scene.h"
 
 #include <glm/mat4x4.hpp> // glm::mat4

@@ -134,6 +134,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -148,13 +149,16 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="suzi_flat.h" />
     <ClInclude Include="suzi_smooth.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cubeUnLit.vert" />
     <None Include="fragment.frag" />
     <None Include="packages.config" />
+    <None Include="cubeUnLit.frag" />
     <None Include="vertex.vert" />
   </ItemGroup>
   <ItemGroup>
