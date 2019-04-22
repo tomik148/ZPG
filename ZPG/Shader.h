@@ -21,6 +21,8 @@ public:
 	GLint Add(glm::vec3 vector, const char * nameInShader);
 	GLint Add(float f, const char * nameInShader);
 	GLint Add(int i, const char * nameInShader);
+	GLint Add(unsigned int i, const char * nameInShader);
+
 
 	GLuint shaderProgram;
 

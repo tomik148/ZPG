@@ -96,6 +96,12 @@ GLint Shader::Add(int i, const char * nameInShader)
 	glUniform1i(ret, i);
 	return ret;
 }
+GLint Shader::Add(unsigned int i, const char * nameInShader)
+{
+	GLint ret = glGetUniformLocation(shaderProgram, nameInShader);
+	glUniform1ui(ret, i);
+	return ret;
+}
 
 
 Shader::~Shader()

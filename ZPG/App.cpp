@@ -12,21 +12,21 @@ void App::MainLoop()
 	Shader* shader2 = new Shader("../ZPG/cubeUnLit.vert", "../ZPG/cubeUnLit.frag");
 	Scene* scene = new Scene();
 
-	RenderableObject* obj1 = new RenderableObject(sphere, sizeofSphere, shader);
-	obj1->Position = glm::vec3(2,0,0);	
-	scene->Add(obj1);
+	//RenderableObject* obj1 = new RenderableObject(sphere, sizeofSphere, shader);
+	//obj1->Position = glm::vec3(2,0,0);	
+	//scene->Add(obj1);
 
-	RenderableObject* obj2 = new RenderableObject(sphere, sizeofSphere, shader);
-	obj2->Position = glm::vec3(-2,0,0);	
-	scene->Add(obj2);
+	//RenderableObject* obj2 = new RenderableObject(sphere, sizeofSphere, shader);
+	//obj2->Position = glm::vec3(-2,0,0);	
+	//scene->Add(obj2);
 
-	RenderableObject* obj3 = new RenderableObject(sphere, sizeofSphere, shader);
-	obj3->Position = glm::vec3(0,0,2);	
-	scene->Add(obj3);
+	//RenderableObject* obj3 = new RenderableObject(sphere, sizeofSphere, shader);
+	//obj3->Position = glm::vec3(0,0,2);	
+	//scene->Add(obj3);
 
-	RenderableObject* obj4 = new RenderableObject(sphere, sizeofSphere, shader);
-	obj4->Position = glm::vec3(0,0,-2);
-	scene->Add(obj4);
+	//RenderableObject* obj4 = new RenderableObject(sphere, sizeofSphere, shader);
+	//obj4->Position = glm::vec3(0,0,-2);
+	//scene->Add(obj4);
 
 	camera = new Camera(0, 10, 0, 0, -89);
 
@@ -69,10 +69,32 @@ void App::MainLoop()
 	//}
 
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	auto obj = new RenderableObject(new Model("../Models/test.obj"), shader);
-	scene->Add(obj);
+	//auto obj2 = new RenderableObject(new Model("../Models/test.obj"), shader);
+	//scene->Add(obj2);	
+	//auto obj5 = new RenderableObject(new Model("../Models/Handgun_obj.obj"), shader);
+	//scene->Add(obj5);
+	auto obj = new RenderableObject(new Model("../Models/Table.obj"), shader);
+	obj->Position = glm::vec3(0.0f, 0.0f, 0.0f);
+	scene->Add(obj);	
+	auto obj3 = new RenderableObject(new Model("../Models/M16.obj"), shader);
+	obj3->parent = obj;
+	obj3->Scale = glm::vec3(0.4f, 0.4f, 0.4f);
+	obj3->Position = glm::vec3(1.8f, 0.3f, 0.0f);
+	obj3->Rotation = glm::vec3(0.0f, 1.0f, 1.5707f);
+	scene->Add(obj3);	
+	auto obj4 = new RenderableObject(new Model("../Models/hora.obj"), shader);
+	obj4->Scale = glm::vec3(4.0f, 4.0f, 4.0f);
+	scene->Add(obj4);	
+	auto obj6 = new RenderableObject(new Model("../Models/GipsyGuitar.obj"), shader);
+	obj6->Scale = glm::vec3(0.03f, 0.03f, 0.03f);
+	obj6->Position = glm::vec3(0.0f, 2.7f, -1.0f);
+	obj6->Rotation = glm::vec3(1.2f, 0.0f, 0.0f);
+	scene->Add(obj6);
 
-	//glm::mat4 modelMatrix = glm::mat4(1);
+
+	
+
+	glm::mat4 m = glm::mat4(1);
 	auto sky = new SkyBox(shader2);
 
 	//glfwSetKeyCallback(window, movment);
@@ -95,18 +117,19 @@ void App::MainLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		//shader->SetAsProgram();
 
-		
+		shader->SetAsProgram();
 		shader->Add(viewMatrix, "viewMatrix");
 		shader->Add(projectionMatrix, "projectionMatrix");		
 		shader->Add(camera->Position, "cameraPosition");
 
-		//shader2->Add(glm::translate(modelMatrix, camera->Position), "Model");
+		shader2->SetAsProgram();
+		shader2->Add(glm::translate(m, camera->Position), "m");
 		shader2->Add(viewMatrix, "viewMatrix");
 		shader2->Add(projectionMatrix, "projectionMatrix");
 		
 		
 		
-		//sky->Draw();
+		sky->Draw();
 		scene->Update(1);
 
 		/*
